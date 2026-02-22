@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHANI ELITE | Wedding & Event Specialist</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@100;300;400;600&family=Playfair+Display:ital,wght@0,900;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-gold: #e2b13c;
+            --bg-black: #030303;
+            --bg-card: #0a0a0a;
+            --transition-slow: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+
+        body {
+            background-color: var(--bg-black);
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        #cursor {
+            width: 20px; height: 20px; border: 1px solid var(--primary-gold);
+            border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999;
+        }
+
+        #loader {
+            position: fixed; width: 100%; height: 100vh; background: #000;
+            z-index: 10000; display: flex; justify-content: center; align-items: center; flex-direction: column;
+        }
+        .loader-logo { font-family: 'Cinzel', serif; font-size: 3rem; letter-spacing: 15px; color: var(--primary-gold); animation: pulse 2s infinite; }
+
+        header {
+            position: fixed; width: 100%; padding: 40px 8%;
+            display: flex; justify-content: space-between; align-items: center; z-index: 900;
+            mix-blend-mode: difference;
+        }
+        .logo-text { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--primary-gold); letter-spacing: 5px; text-decoration: none; }
+        nav .nav-link { text-decoration: none; color: #fff; margin-left: 50px; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; position: relative; }
+
+        /* HERO - WEDDING COUPLE THEME */
+        .hero {
+            height: 110vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.5), #030303), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=90');
+            background-size: cover; background-attachment: fixed; text-align: center;
+        }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 8vw; font-weight: 900; background: linear-gradient(to bottom, #fff, #e2b13c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-family: 'Cinzel', serif; color: var(--primary-gold); letter-spacing: 15px; text-transform: uppercase; font-size: 1.2rem; }
+
+        /* SERVICES */
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(226, 177, 60, 0.1); }
+        .service-item { background: var(--bg-black); padding: 80px 40px; text-align: center; transition: var(--transition-slow); }
+        .service-item i { font-size: 2.5rem; color: var(--primary-gold); margin-bottom: 20px; }
+
+        /* MASONRY GALLERY - REAL EVENT IMAGES */
+        .elite-gallery { padding: 50px 5% 100px; column-count: 3; column-gap: 20px; }
+        .gallery-card { break-inside: avoid; margin-bottom: 20px; position: relative; overflow: hidden; border: 1px solid #222; border-radius: 8px; }
+        .gallery-card img { width: 100%; transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .gallery-card:hover img { transform: scale(1.1); filter: contrast(1.1); }
+        .img-label { position: absolute; bottom: 10px; left: 15px; font-family: 'Cinzel'; font-size: 0.7rem; color: var(--primary-gold); background: rgba(0,0,0,0.7); padding: 5px 12px; border-radius: 20px; }
+
+        /* CONTACT SECTION */
+        .contact-section { display: grid; grid-template-columns: 1fr 1fr; min-height: 80vh; border-top: 1px solid #1a1a1a; }
+        .contact-visual { 
+            padding: 60px; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80');
+            background-size: cover; text-align: center;
+        }
+        .contact-form-side { padding: 80px; background: var(--bg-card); }
+        .input-group { position: relative; margin-bottom: 40px; }
+        .input-group input, .input-group textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid #333; padding: 10px 0; color: #fff; font-size: 1.1rem; outline: none; }
+        .input-group label { position: absolute; left: 0; top: 10px; color: #666; transition: 0.3s; pointer-events: none; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+        .input-group input:focus ~ label, .input-group input:valid ~ label { top: -20px; color: var(--primary-gold); font-size: 0.7rem; }
+
+        .btn-gold { background: var(--primary-gold); color: #000; border: none; padding: 20px; font-family: 'Cinzel'; font-weight: 900; width: 100%; letter-spacing: 2px; transition: 0.3s; cursor: none; }
+        .btn-gold:hover { background: #fff; transform: translateY(-5px); }
+
+        footer { padding: 80px 8% 40px; background: #000; text-align: center; }
+        .social-icons a { font-size: 1.5rem; color: #fff; margin: 0 15px; transition: 0.3s; }
+        .social-icons a:hover { color: var(--primary-gold); }
+
+        @keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+        @media (max-width: 992px) { .contact-section, .services-grid, .elite-gallery { grid-template-columns: 1fr; column-count: 1; } .hero-title { font-size: 15vw; } }
+    </style>
+</head>
+<body onload="removeLoader()">
+
+    <div id="cursor"></div>
+
+    <div id="loader">
+        <div class="loader-logo">SHANI</div>
+        <p style="letter-spacing: 5px; font-size: 0.7rem; margin-top: 20px;">CAPTURING MEMORIES...</p>
+    </div>
+
+    <header>
+        <a href="#" class="logo-text">SHANI</a>
+        <nav>
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#gallery" class="nav-link">Portfolio</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div data-aos="zoom-in">
+            <p class="hero-subtitle">Royal Wedding & Event Studio</p>
+            <h1 class="hero-title">SHANI PRODUCTION</h1>
+            <p style="letter-spacing: 8px; margin-top: 20px; color: #fff; font-weight: 300;">CELEBRATING YOUR BEST MOMENTS</p>
+            <p style="color: var(--primary-gold); margin-top: 10px; font-weight: bold; font-size: 1.2rem;">0300 9676441</p>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="services-grid">
+            <div class="service-item" data-aos="fade-up">
+                <i class="fas fa-gem"></i>
+                <h3>WEDDING SHOOT</h3>
+                <p>Cinematic coverage of your royal big day.</p>
+            </div>
+            <div class="service-item" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-birthday-cake"></i>
+                <h3>BIRTHDAYS</h3>
+                <p>Vibrant & joyful memories for your loved ones.</p>
+            </div>
+            <div class="service-item" data-aos="fade-up" data-aos-delay="400">
+                <i class="fas fa-heart"></i>
+                <h3>COUPLE SHOOTS</h3>
+                <p>Romantic storytelling through the lens.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <div style="text-align: center; padding: 80px 0 20px;">
+            <h2 style="font-family: 'Cinzel'; font-size: 2.5rem; letter-spacing: 5px; color: var(--primary-gold);">THE PORTFOLIO</h2>
+            <p style="opacity: 0.5; letter-spacing: 3px;">WEDDINGS • BIRTHDAYS • COUPLES</p>
+        </div>
+        
+        <div class="elite-gallery">
+            <div class="gallery-card" data-aos="fade-up">
+                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&q=80" alt="Royal Wedding">
+                <div class="img-label">ROYAL WEDDING</div>
+            </div>
+            <div class="gallery-card" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://images.unsplash.com/photo-1530103043960-ef38714abb15?auto=format&fit=crop&w=600&q=80" alt="Birthday Celebration">
+                <div class="img-label">BIRTHDAY MAGIC</div>
+            </div>
+            <div class="gallery-card" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80" alt="Couple Shoot">
+                <div class="img-label">ROMANTIC COUPLE</div>
+            </div>
+            <div class="gallery-card" data-aos="fade-up">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80" alt="Bridal Shoot">
+                <div class="img-label">BRIDAL GLAMOUR</div>
+            </div>
+            <div class="gallery-card" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://tse4.mm.bing.net/th/id/OIP.x2AmyOdOy-Evst2FbZX_nQHaEd?pid=Api&P=0&h=220" alt="Party Highlights">
+                <div class="img-label">PARTY VIBES</div>
+            </div>
+            <div class="gallery-card" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1522673607200-164848824b02?auto=format&fit=crop&w=600&q=80" alt="Outdoor Shoot">
+                <div class="img-label">OUTDOOR COUPLE</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="contact-visual" data-aos="fade-right">
+            <h2 style="font-family: 'Cinzel'; color: var(--primary-gold); font-size: 2.5rem;">BOOK NOW</h2>
+            <p style="margin-bottom: 20px; opacity: 0.8; letter-spacing: 2px;">Ready to capture your story?</p>
+            <a href="tel:+923009676441" style="font-size: 2.2rem; color: #fff; text-decoration: none; font-weight: 600;">0300 9676441</a>
+            <p style="color: var(--primary-gold); margin: 10px 0;">naina.studio441@gmail.com</p>
+            
+            <a href="https://wa.me/923009676441" target="_blank" style="margin-top: 30px; display: inline-block; padding: 18px 40px; background: #25d366; color: #fff; text-decoration: none; border-radius: 50px; font-weight: 900; font-size: 0.8rem; letter-spacing: 2px; box-shadow: 0 10px 20px rgba(37,211,102,0.3);">
+                <i class="fab fa-whatsapp" style="margin-right: 10px;"></i> WHATSAPP SHANI
+            </a>
+        </div>
+
+        <div class="contact-form-side" data-aos="fade-left">
+            <h2 style="font-family: 'Cinzel'; margin-bottom: 40px; font-size: 2rem;">EVENT INQUIRY</h2>
+            <form id="eliteForm">
+                <div class="input-group">
+                    <input type="text" id="name" required>
+                    <label>Full Name</label>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="email" required>
+                    <label>Email Address</label>
+                </div>
+                <div class="input-group">
+                    <textarea id="msg" rows="3" required></textarea>
+                    <label>Tell us about your event...</label>
+                </div>
+                <button type="submit" class="btn-gold">SEND TO GMAIL</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <h2 class="logo-text" style="font-size: 1.5rem;">SHANI PRODUCTION</h2>
+        <div class="social-icons" style="margin: 30px 0;">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/923009676441"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p style="color: #444; font-size: 0.7rem; letter-spacing: 2px;">&copy; 2026 SHANI ELITE STUDIOS | 0300 9676441</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        function removeLoader() {
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+            }, 1500);
+        }
+
+        AOS.init({ duration: 1000, once: true });
+
+        document.getElementById('eliteForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const n = document.getElementById('name').value;
+            const em = document.getElementById('email').value;
+            const m = document.getElementById('msg').value;
+            window.location.href = `mailto:naina.studio441@gmail.com?subject=New Event Inquiry&body=Name: ${n}%0D%0AEmail: ${em}%0D%0ADetails: ${m}`;
+        });
+    </script>
+</body>
+</html>
